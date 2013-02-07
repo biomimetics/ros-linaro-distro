@@ -1,0 +1,18 @@
+--- os_detect.py	2013-01-10 00:53:40.000000000 +0000
++++ os_detect.py	2000-01-01 00:03:35.366335102 +0000
+@@ -467,6 +467,7 @@
+ OS_OSX='osx'
+ OS_RHEL='rhel'
+ OS_UBUNTU='ubuntu'
++OS_LINARO='linaro'
+ 
+ OsDetect.register_default(OS_ARCH, Arch())
+ OsDetect.register_default(OS_CYGWIN, Cygwin())
+@@ -479,6 +480,7 @@
+ OsDetect.register_default(OS_OSX, OSX())
+ OsDetect.register_default(OS_RHEL, Rhel())
+ OsDetect.register_default(OS_UBUNTU, LsbDetect("Ubuntu"))
++OsDetect.register_default(OS_LINARO, LsbDetect("Linaro"))
+     
+ 
+ if __name__ == '__main__':
