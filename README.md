@@ -2,6 +2,8 @@ ros-linaro-build
 ================
 
 Instructions on building ROS on an odroid-u2 running Linaro.
+You can either install via the provided install script (ros-install.sh), or follow instructions in this README.
+
 
 Installation Setup
 ---------------------
@@ -66,6 +68,7 @@ Install ROS system dependencies via rosdep:
     $ https://github.com/andrewjchen/ros-linaro-build.git
     $ rosdep install --from-paths src --ignore-src --rosdistro groovy -yr
 
- 
+### Yaml-cpp
+
 
 
