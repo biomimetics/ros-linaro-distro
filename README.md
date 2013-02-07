@@ -4,6 +4,11 @@ ros-linaro-build
 Instructions on building ROS on an odroid-u2 running Linaro.
 You can either install via the provided install script (ros-install.sh), or follow instructions in this README.
 
+Current Status
+--------------
+
+May have bugs, and is not 100% complete yet.
+
 
 Installation Setup
 ---------------------
@@ -70,5 +75,102 @@ Install ROS system dependencies via rosdep:
 
 ### Yaml-cpp
 
+Building yaml-cpp via repo
+
+    $ sudo echo "deb http://ppa.launchpad.net/stephane.magnenat/precise/ubuntu precise main 
+deb-src http://ppa.launchpad.net/stephane.magnenat/precise/ubuntu precise main" >> /etc/apt/sources.list
+    $ sudo apt-get update; sudo apt-get upgrade -
+    $ sudo apt-get build-dep yaml-cpp
+    $ mkdir -p ~/fix/yaml-cpp
+    $ cd ~/fix/yaml-cpp
+    $ sudo apt-get source yaml-cpp
+    $ cd yaml-cpp-0.2.6
+    $ sudo dpkg-buildpackage -us -uc -nc
+    $ cd ..
+    $ sudo dpkg -i *.deb
 
 
+### tbb-dev
+
+Download and build patched tbb-dev:
+
+    $ mkdir -p /fix/tbb-dev
+    $ wget http://threadingbuildingblocks.org/sites/default/files/software_releases/source/tbb40_20120613oss_src.tgz
+    $ tar xzvf tbb40_20120613oss_src.tgz
+    $ cd tbb40_20120613oss
+    $ patch -p1  ~/ros-linaro-build/tbb-dev/tbb40_20120613oss-0001-Endianness.patch
+    $ patch -p1 ~/ros-linaro-build/tbb-dev/tbb40_20120613oss-0002-ARM-support.patch
+    $ patch -p1 ~/ros-linaro-build/tbb-dev/tbb40_20120613oss-0003-Add-machine_fetchadd-48-intrinsics.patch 
+    $ make -j4
+    $ echo source /home/linaro/fix/tbb-dev/tbb40_20120613oss/build/linux_armv7_gcc_cc4.6_libc2.15_kernel3.0.51_release/tbbvars.sh >> ~/.bashrc
+
+Build tbb-dev dummy package:
+
+    $ cp ~/ros-linaro-build/tbb-dev/libtbb-dev ~/fix/tbb-dev/libtbb-dev
+    $ cd ~/fix/tbb-dev
+    $ sudo apt-get install equivs -y
+    $ equivs-build libtbb-dev
+    $ sudo dpkg -i libtbb-deb_1.0_all.deb
+
+### Remove unsupported packages
+
+    $ cd /opt/ros/groovy/catkin_ws/src
+    $ rm -r */
+    $ sudo patch -p1 ~/ros-linaro-build/ros-desktop-install/rosinstall.patch
+    $ rosws update
+
+### rosgraph/ifaddrs.py Bug
+
+    $ cd /opt/ros/groovy/catkin_ws/src/rosgraph/src/rosgraph
+    $ sudo patch -p1 ~/ros-linaro-build/rosgraph/rosgraph-ifaddrs.py.patch
+
+
+Build ROS-desktop
+-----------------
+
+### Build Catkin packages
+
+    $ cd /opt/ros/groovy/catkin_ws
+    $ sudo ./src/catkin/bin/catkin_make_isolated -j1 --install
+
+Build rosbuild packages(TODO)
+
+    $ source /opt/ros/groovy/catkin_ws/install_isolated/setup.bash
+    $ mkdir -p ~/rosbuild_ws
+    $ rosws init ~/rosbuild_ws /opt/ros/groovy/install_isolated
+    $ rosws merge http://packages.ros.org/web/rosinstall/generate/dry/raw/groovy/desktop
+    $ rosws update -j4
+    $ source ~/rosbuild_ws/setup.bash
+    $ rosmake -a
+
+
+ROS user-level workspace
+------------------------
+
+### Catkin workspace
+
+    $ mkdir -p ~/ros_catkin_ws/src
+    $ source ~/rosbuild_ws/setup.bash
+    $ cd ~/ros_catkin_ws/src
+    $ wstool init
+
+### Rosbuild workspace
+
+    $ mkdir -p ~/ros_ws
+    $ source ~/ros_catkin_ws/install/setup.bash
+    $ rosws init ~/ros_ws ~/ros_catkin_ws/install
+
+
+Optional: rosjava
+-----------------
+
+### Downloading the package
+
+
+### Downloading Gradle
+
+
+### Downloading jdk-1.8.0
+
+
+### rosjava patch
