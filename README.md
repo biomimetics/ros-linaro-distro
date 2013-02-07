@@ -112,6 +112,26 @@ Build tbb-dev dummy package:
     $ equivs-build libtbb-dev
     $ sudo dpkg -i libtbb-deb_1.0_all.deb
 
+### Collada-dom
+
+    $ cd /opt
+    $ wget http://sourceforge.net/projects/collada-dom/files/latest/download
+    $ tar xf download
+    $ cd collada-dom-2.4.0
+    $ cmake .
+    $ sudo make install -j4
+
+### flann
+    $ cd /opt
+    $ wget http://people.cs.ubc.ca/~mariusm/uploads/FLANN/flann-1.8.4-src.zip
+    $ unzip flann*
+    $ mkdir build
+    $ cd build
+    $ cmake ..
+    $ sudo make install -j4
+
+### pcl
+
 ### Remove unsupported packages
 
     $ cd /opt/ros/groovy/catkin_ws/src
