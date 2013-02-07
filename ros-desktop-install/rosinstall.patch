@@ -1,5 +1,5 @@
---- .rosinstall	2013-02-07 01:03:19.676061604 -0800
-+++ .rosinstall	2013-02-07 01:03:19.676061604 -0800
+--- .rosinstall	2013-02-07 20:02:14.466386769 +0000
++++ .rosinstall.new	2013-02-07 20:17:15.201386932 +0000
 @@ -11,8 +11,6 @@
      version: nodelet_core-release-release-nodelet-1.7.14}
  - tar: {local-name: catkin, uri: 'https://github.com/ros-gbp/catkin-release/archive/release/catkin/0.5.63.tar.gz',
@@ -13,10 +13,10 @@
      version: ros-release-release-roslang-1.9.42}
  - tar: {local-name: trajectory_msgs, uri: 'https://github.com/ros-gbp/common_msgs-release/archive/release/trajectory_msgs/1.9.14.tar.gz',
      version: common_msgs-release-release-trajectory_msgs-1.9.14}
--- tar: {local-name: pcl_ros, uri: 'https://github.com/ros-gbp/perception_pcl-release/archive/release/pcl_ros/1.0.26.tar.gz',
--    version: perception_pcl-release-release-pcl_ros-1.0.26}
--- tar: {local-name: perception_pcl, uri: 'https://github.com/ros-gbp/perception_pcl-release/archive/release/perception_pcl/1.0.26.tar.gz',
--    version: perception_pcl-release-release-perception_pcl-1.0.26}
+-- tar: {local-name: pcl_ros, uri: 'https://github.com/ros-gbp/perception_pcl-release/archive/release/pcl_ros/1.0.28.tar.gz',
+-    version: perception_pcl-release-release-pcl_ros-1.0.28}
+-- tar: {local-name: perception_pcl, uri: 'https://github.com/ros-gbp/perception_pcl-release/archive/release/perception_pcl/1.0.28.tar.gz',
+-    version: perception_pcl-release-release-perception_pcl-1.0.28}
 -- tar: {local-name: srdfdom, uri: 'https://github.com/ros-gbp/srdfdom-release/archive/release/srdfdom/0.2.4.tar.gz',
 -    version: srdfdom-release-release-srdfdom-0.2.4}
  - tar: {local-name: rosparam, uri: 'https://github.com/ros-gbp/ros_comm-release/archive/release/rosparam/1.9.41.tar.gz',
@@ -60,7 +60,16 @@
  - tar: {local-name: rosservice, uri: 'https://github.com/ros-gbp/ros_comm-release/archive/release/rosservice/1.9.41.tar.gz',
      version: ros_comm-release-release-rosservice-1.9.41}
  - tar: {local-name: rospy, uri: 'https://github.com/ros-gbp/ros_comm-release/archive/release/rospy/1.9.41.tar.gz',
-@@ -211,8 +193,6 @@
+@@ -167,8 +149,6 @@
+     version: std_msgs-release-release-std_msgs-0.5.7}
+ - tar: {local-name: rqt_service_caller, uri: 'https://github.com/ros-gbp/rqt_common_plugins-release/archive/release/rqt_service_caller/0.2.10.tar.gz',
+     version: rqt_common_plugins-release-release-rqt_service_caller-0.2.10}
+-- tar: {local-name: python_orocos_kdl, uri: 'https://github.com/ros-gbp/orocos_kdl-release/archive/release/python_orocos_kdl/1.1.99.tar.gz',
+-    version: orocos_kdl-release-release-python_orocos_kdl-1.1.99}
+ - tar: {local-name: nav_msgs, uri: 'https://github.com/ros-gbp/common_msgs-release/archive/release/nav_msgs/1.9.14.tar.gz',
+     version: common_msgs-release-release-nav_msgs-1.9.14}
+ - tar: {local-name: stereo_msgs, uri: 'https://github.com/ros-gbp/common_msgs-release/archive/release/stereo_msgs/1.9.14.tar.gz',
+@@ -211,8 +191,6 @@
      version: ros_comm-release-release-rosmsg-1.9.41}
  - tar: {local-name: turtlesim, uri: 'https://github.com/ros-gbp/ros_tutorials-release/archive/release/turtlesim/0.3.9.tar.gz',
      version: ros_tutorials-release-release-turtlesim-0.3.9}
@@ -69,7 +78,7 @@
  - tar: {local-name: angles, uri: 'https://github.com/ros-gbp/geometry_angles_utils-release/archive/release/angles/1.9.8.tar.gz',
      version: geometry_angles_utils-release-release-angles-1.9.8}
  - tar: {local-name: diagnostic_analysis, uri: 'https://github.com/ros-gbp/diagnostics-release/archive/release/diagnostic_analysis/1.7.9.tar.gz',
-@@ -225,47 +205,29 @@
+@@ -225,46 +203,28 @@
      version: driver_common-release-release-timestamp_tools-1.6.5}
  - tar: {local-name: driver_common, uri: 'https://github.com/ros-gbp/driver_common-release/archive/release/driver_common/1.6.5.tar.gz',
      version: driver_common-release-release-driver_common-1.6.5}
@@ -105,8 +114,7 @@
 -    version: robot_model-release-release-kdl_parser-1.9.32}
 -- tar: {local-name: collada_urdf, uri: 'https://github.com/ros-gbp/robot_model-release/archive/release/collada_urdf/1.9.32.tar.gz',
 -    version: robot_model-release-release-collada_urdf-1.9.32}
--- tar: {local-name: roswtf, uri: 'https://github.com/ros-gbp/ros_comm-release/archive/release/roswtf/1.9.41.tar.gz',
-+ tar: {local-name: roswtf, uri: 'https://github.com/ros-gbp/ros_comm-release/archive/release/roswtf/1.9.41.tar.gz',
+ - tar: {local-name: roswtf, uri: 'https://github.com/ros-gbp/ros_comm-release/archive/release/roswtf/1.9.41.tar.gz',
      version: ros_comm-release-release-roswtf-1.9.41}
  - tar: {local-name: std_srvs, uri: 'https://github.com/ros-gbp/ros_comm-release/archive/release/std_srvs/1.9.41.tar.gz',
      version: ros_comm-release-release-std_srvs-1.9.41}
@@ -114,12 +122,10 @@
      version: geometry-release-release-geometry-1.9.29}
 -- tar: {local-name: urdfdom, uri: 'https://github.com/ros-gbp/urdfdom-release/archive/release/urdfdom/0.2.7.tar.gz',
 -    version: urdfdom-release-release-urdfdom-0.2.7}
--- tar: {local-name: ros_tutorials, uri: 'https://github.com/ros-gbp/ros_tutorials-release/archive/release/ros_tutorials/0.3.9.tar.gz',
-+ tar: {local-name: ros_tutorials, uri: 'https://github.com/ros-gbp/ros_tutorials-release/archive/release/ros_tutorials/0.3.9.tar.gz',
+ - tar: {local-name: ros_tutorials, uri: 'https://github.com/ros-gbp/ros_tutorials-release/archive/release/ros_tutorials/0.3.9.tar.gz',
      version: ros_tutorials-release-release-ros_tutorials-0.3.9}
  - tar: {local-name: rospy_tutorials, uri: 'https://github.com/ros-gbp/ros_tutorials-release/archive/release/rospy_tutorials/0.3.9.tar.gz',
-     version: ros_tutorials-release-release-rospy_tutorials-0.3.9}
-@@ -301,7 +263,5 @@
+@@ -301,7 +261,5 @@
      version: gencpp-release-release-gencpp-0.4.11}
  - tar: {local-name: diagnostics, uri: 'https://github.com/ros-gbp/diagnostics-release/archive/release/diagnostics/1.7.9.tar.gz',
      version: diagnostics-release-release-diagnostics-1.7.9}
