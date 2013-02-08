@@ -1,0 +1,17 @@
+--- Makefile	2013-02-08 12:47:26.529354554 +0000
++++ Makefile	2013-02-08 13:10:43.179355233 +0000
+@@ -4,12 +4,12 @@
+ all: installed
+ 
+ installed: $(SOURCES)
+-	`rosstack find rosjava_core`/gradlew installApp
++	/opt/gradle/gradle-1.4/bin/gradle installApp
+ 	mkdir -p bin
+ 	ln -sf ../build/install/$(PACKAGE)/bin/$(PACKAGE) bin/execute
+ 	chmod a+x bin/execute
+ 	touch installed rospack_nosubdirs
+ 
+ clean:
+-	`rosstack find rosjava_core`/gradlew clean
++	/opt/gradle/gradle-1.4/bin/gradle clean
+ 	rm -rf bin installed rospack_nosubdirs
