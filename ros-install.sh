@@ -16,7 +16,7 @@ sudo apt-get install python-rosdep python-wstool python-catkin-pkg build-essenti
 # Adds other dependencies
 sudo apt-get install libapr1-dev libaprutil1-dev libbz2-dev python-dev libgtest-dev python-paramiko libboost-all-dev liblog4cxx10-dev pkg-config python-empy swig python-nose lsb-release python-wxgtk2.8 python-gtk2 python-matplotlib libwxgtk2.8-dev python-imaging libqt4-dev graphviz qt4-qmake python-numpy libtiff4-dev libpoco-dev assimp-utils libtinyxml-dev python-pydot python-qwt5-qt4 libxml2-dev libsdl-image1.2-dev bison++ automake autoconf -y
 
-sudo apt-get install ranger emacs -y
+sudo apt-get install ranger htop  emacs -y
 
 # Catkin setup
 sudo mkdir -p /opt/ros/groovy/catkin_ws
@@ -28,7 +28,7 @@ sudo wstool init src -j4 http://packages.ros.org/web/rosinstall/generate/raw/gro
 # adds swig-wx to the catkin workspace
 cd src
 sudo wstool set swig-wx https://github.com/ros/swig-wx.git --git -y ; sudo wstool update swig-wx
-cd ..
+ccd ..
 
 # Install Dependencies
 
@@ -92,4 +92,77 @@ sudo patch -p0 < ~/ros-linaro-build/rosgraph/rosgraph-ifaddrs.py.patch
 
 # bulid catkin packages
 cd /opt/ros/groovy/catkin_ws
-sudo ./src/catkin/bin/catkin_make_isolated -j1 --install
+sudo ./src/catkin/bin/catkin_make_isolated -j4 --install
+
+# Rosbuild packages
+# source /opt/ros/groovy/catkin_ws/install_isolated/setup.bash
+# mkdir -p ~/rosbuild_ws
+# rosws init ~/rosbuild_ws /opt/ros/groovy/catkin_ws
+# cd ~/rosbuild_ws
+# rosws merge http://packages.ros.org/web/rosinstall/generate/dry/raw/groovy/desktop
+# rosws update -j4
+# source ~/rosbuild_ws/setup.bash
+# rosmake -a
+
+# user overlay catkin
+mkdir -p ~/catkin_overlay/src
+source /opt/ros/groovy/catkin_ws/install_isolated/setup.bash
+cd ~/catkin_overlay/src
+wstool init . /opt/ros/groovy/catkin_ws/install_isolated
+
+# user overlay rosbuild
+mkdir ~/rosbuild_overlay
+cd ~/rosbuild_overlay
+rosws init . ~/catkin_overlay/devel
+
+
+# rosjava
+source ~/rosbuild_overlay/setup.bash
+cd ~/rosbuild_overlay/
+rosws merge http://rosjava.googlecode.com/hg/.rosinstall
+rosws update rosjava_core
+rospack profile
+
+# download gradle
+sudo mkdir -p /opt/gradle/
+cd /opt/gradle/
+sudo wget http://services.gradle.org/distributions/gradle-1.4-bin.zip
+sudo unzip gradle-1.4-bin.zip
+
+# download jdk1.8.0
+sudo mkdir -p /opt/oracle/
+cd /opt/oracle/
+sudo wget http://www.java.net/download/JavaFXarm/jdk-8-ea-b36e-linux-arm-hflt-29_nov_2012.tar.gz
+sudo tar xzvf jdk-8-ea-b36e-linux-arm-hflt-29_nov_2012.tar.gz
+echo "export JAVA_HOME=/opt/oracle/jdk1.8.0
+ PATH=.:$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH" >> ~/.bashrc
+
+
+# building rosjava_core with gradle
+source ~/rosbuild_overlay/setup.bash
+roscd rosjava_core
+/opt/gradle/gradle-1.4/bin/gradle install
+rosmake rosjava_core
+#todo rosdep install rosjava_core
+
+# building april
+source ~/rosbuild_overlay/setup.bash
+cd ~/rosbuild_overlay
+rosws merge http://utexas-ros-pkg.googlecode.com/svn/trunk/rosinstall/april.rosinstall
+rosws update april
+rospack profile
+source ~/rosbuild_overlay/setup.bash
+rosdep install april -yr
+
+# patch april-tags-node
+source ~/rosbuild_overlay/setup.bash
+roscd april_tags_node
+patch -p0 < ~/ros-linaro-build/april_tags_node/april_tags_node.patch
+rosmake april
+
+# download usb_cam
+source ~/rosbuild_overlay/setup.bash
+cd ~/rosbuild_overlay/
+rosws set usb_cam --svn http://svn.code.sf.net/p/bosch-ros-pkg/code/trunk/stacks/bosch_drivers -y
+source setup.bash
+rosdep install usb_cam -yr
