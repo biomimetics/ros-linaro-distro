@@ -15,6 +15,7 @@ Current Status
 May have bugs, and is not 100% complete yet.
 
 [Changelog] (Changelog.md)
+
 [Resources] (Resources.md)
 
 Installation Setup
