@@ -1,0 +1,15 @@
+SOURCES=$(shell find src/main -name *.java)
+PACKAGE=april_tags_node
+
+all: installed
+
+installed: $(SOURCES)
+	/opt/gradle/gradle-1.4/bin/gradle installApp
+	mkdir -p bin
+	ln -sf ../build/install/$(PACKAGE)/bin/$(PACKAGE) bin/execute
+	chmod a+x bin/execute
+	touch installed rospack_nosubdirs
+
+clean:
+	/opt/gradle/gradle-1.4/bin/gradle clean
+	rm -rf bin installed rospack_nosubdirs
