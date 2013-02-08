@@ -77,9 +77,9 @@ Install ROS system dependencies via rosdep:
 
 Building yaml-cpp via repo
 
-    $ sudo echo "deb http://ppa.launchpad.net/stephane.magnenat/precise/ubuntu precise main 
-deb-src http://ppa.launchpad.net/stephane.magnenat/precise/ubuntu precise main" >> /etc/apt/sources.list
-    $ sudo apt-get update; sudo apt-get upgrade -
+    $ echo "deb http://ppa.launchpad.net/stephane.magnenat/precise/ubuntu precise main
+deb-src http://ppa.launchpad.net/stephane.magnenat/precise/ubuntu precise main" | sudo tee -a /etc/apt/sources.list
+    $ sudo apt-get update; sudo apt-get upgrade -y
     $ sudo apt-get build-dep yaml-cpp
     $ mkdir -p ~/fix/yaml-cpp
     $ cd ~/fix/yaml-cpp
@@ -89,28 +89,41 @@ deb-src http://ppa.launchpad.net/stephane.magnenat/precise/ubuntu precise main" 
     $ cd ..
     $ sudo dpkg -i *.deb
 
+Build yaml-cpp dummy package
+
+    $ mkdir -p ~/fix/yaml-cpp/
+    $ cp ~/ros-linaro-build/yaml-cpp/yaml-cpp ~/fix/yaml-cpp/yaml-cpp
+    $ cd ~/fix/yaml-cpp
+    $ sudo apt-get install equivs -y
+    $ equivs-build yaml-cpp
+    $ sudo dpkg -i yaml-cpp_1.0_all.deb
+
+
 
 ### tbb-dev
 
 Download and build patched tbb-dev:
 
-    $ mkdir -p /fix/tbb-dev
-    $ wget http://threadingbuildingblocks.org/sites/default/files/software_releases/source/tbb40_20120613oss_src.tgz
-    $ tar xzvf tbb40_20120613oss_src.tgz
+    $ sudo mkdir -p /opt/intel/libtbb-dev
+    $ cd /opt/intel/libtbb-dev
+    $ sudo wget http://threadingbuildingblocks.org/sites/default/files/software_releases/source/tbb40_20120613oss_src.tgz
+    $ sudo tar xzvf tbb40_20120613oss_src.tgz
     $ cd tbb40_20120613oss
-    $ patch -p1  ~/ros-linaro-build/tbb-dev/tbb40_20120613oss-0001-Endianness.patch
-    $ patch -p1 ~/ros-linaro-build/tbb-dev/tbb40_20120613oss-0002-ARM-support.patch
-    $ patch -p1 ~/ros-linaro-build/tbb-dev/tbb40_20120613oss-0003-Add-machine_fetchadd-48-intrinsics.patch 
-    $ make -j4
-    $ echo source /home/linaro/fix/tbb-dev/tbb40_20120613oss/build/linux_armv7_gcc_cc4.6_libc2.15_kernel3.0.51_release/tbbvars.sh >> ~/.bashrc
+    $ sudo patch -p1 < ~/ros-linaro-build/tbb-dev/tbb40_20120613oss-0001-Endianness.patch
+    $ sudo patch -p1 < ~/ros-linaro-build/tbb-dev/tbb40_20120613oss-0002-ARM-support.patch
+    $ sudo patch -p1 < ~/ros-linaro-build/tbb-dev/tbb40_20120613oss-0003-Add-machine_fetchadd-48-intrinsics.patch
+    $ sudo make -j4
+    $ echo "source /opt/intel/libtbb-dev/tbb40_20120613oss/build/linux_armv7_gcc_cc4.6_libc2.15_kernel3.0.60_release/tbbvars.sh" >> ~/.bashrc
+
 
 Build tbb-dev dummy package:
 
+    $ mkdir -p ~/fix/tbb-dev/
     $ cp ~/ros-linaro-build/tbb-dev/libtbb-dev ~/fix/tbb-dev/libtbb-dev
     $ cd ~/fix/tbb-dev
     $ sudo apt-get install equivs -y
     $ equivs-build libtbb-dev
-    $ sudo dpkg -i libtbb-deb_1.0_all.deb
+    $ sudo dpkg -i libtbb-dev_1.0_all.deb
 
 ### Collada-dom
 
@@ -135,14 +148,14 @@ Build tbb-dev dummy package:
 ### Remove unsupported packages
 
     $ cd /opt/ros/groovy/catkin_ws/src
-    $ rm -r */
-    $ sudo patch -p1 ~/ros-linaro-build/ros-desktop-install/rosinstall.patch
-    $ rosws update
+    $ sudo rm -rf */
+    $ sudo patch -p0 <  ~/ros-linaro-build/ros-desktop-install/rosinstall.patch
+    $ sudo rosws update
 
 ### rosgraph/ifaddrs.py Bug
 
     $ cd /opt/ros/groovy/catkin_ws/src/rosgraph/src/rosgraph
-    $ sudo patch -p1 ~/ros-linaro-build/rosgraph/rosgraph-ifaddrs.py.patch
+    $ sudo patch -p0 < ~/ros-linaro-build/rosgraph/rosgraph-ifaddrs.py.patch
 
 
 Build ROS-desktop

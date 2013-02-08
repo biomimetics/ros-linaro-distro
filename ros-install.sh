@@ -34,10 +34,62 @@ cd ..
 
 # Patching rosdep for linaro
 cd /usr/share/pyshared/rospkg/
-sudo patch -p0 < ~/patches/rospkg/rospkg-linaro.patch
+sudo patch -p0 < ~/ros-linaro-build/rospkg/rospkg-linaro.patch
 # TODO download patchset from somewhere
 
 # perform dependency install ignoring errors
 cd /opt/ros/groovy/catkin_ws
+sudo rosdep init
+rosdep update
 rosdep install --from-paths src --ignore-src --rosdistro groovy -yr
 # rosdep check --from-paths src --ignore-src --rosdistro groovy
+
+# Building Yaml-cpp via repo
+echo "deb http://ppa.launchpad.net/stephane.magnenat/precise/ubuntu precise main
+deb-src http://ppa.launchpad.net/stephane.magnenat/precise/ubuntu precise main" | sudo tee -a /etc/apt/sources.list
+sudo apt-get update; sudo apt-get upgrade -y
+sudo apt-get build-dep yaml-cpp
+mkdir -p ~/fix/yaml-cpp
+cd ~/fix/yaml-cpp
+sudo apt-get source yaml-cpp
+cd yaml-cpp-0.2.6
+sudo dpkg-buildpackage -us -uc -nc
+cd ..
+sudo dpkg -i *.deb
+
+#dummy yaml-cpp
+mkdir -p ~/fix/yaml-cpp/
+cp ~/ros-linaro-build/yaml-cpp/yaml-cpp ~/fix/yaml-cpp/yaml-cpp
+cd ~/fix/yaml-cpp
+sudo apt-get install equivs -y
+equivs-build yaml-cpp
+sudo dpkg -i yaml-cpp_1.0_all.deb
+
+
+# patched tbb-dev
+sudo mkdir -p /opt/intel/libtbb-dev
+cd /opt/intel/libtbb-dev
+sudo wget http://threadingbuildingblocks.org/sites/default/files/software_releases/source/tbb40_20120613oss_src.tgz
+sudo tar xzvf tbb40_20120613oss_src.tgz
+cd tbb40_20120613oss
+sudo patch -p1 < ~/ros-linaro-build/tbb-dev/tbb40_20120613oss-0001-Endianness.patch
+sudo patch -p1 < ~/ros-linaro-build/tbb-dev/tbb40_20120613oss-0002-ARM-support.patch
+sudo patch -p1 < ~/ros-linaro-build/tbb-dev/tbb40_20120613oss-0003-Add-machine_fetchadd-48-intrinsics.patch
+sudo make -j4
+echo "source /opt/intel/libtbb-dev/tbb40_20120613oss/build/linux_armv7_gcc_cc4.6_libc2.15_kernel3.0.60_release/tbbvars.sh" >> ~/.bashrc
+
+
+# removing unsupported packages
+cd /opt/ros/groovy/catkin_ws/src
+sudo rm -rf */
+sudo patch -p0 <  ~/ros-linaro-build/ros-desktop-install/rosinstall.patch
+sudo rosws update
+
+# rosgraph/ifaddrs.py
+cd /opt/ros/groovy/catkin_ws/src/rosgraph/src/rosgraph
+sudo patch -p0 < ~/ros-linaro-build/rosgraph/rosgraph-ifaddrs.py.patch
+
+
+# bulid catkin packages
+cd /opt/ros/groovy/catkin_ws
+sudo ./src/catkin/bin/catkin_make_isolated -j1 --install
