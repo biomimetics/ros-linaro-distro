@@ -4,11 +4,18 @@ ros-linaro-build
 Instructions on building ROS on an odroid-u2 running Linaro.
 You can either install via the provided install script (ros-install.sh), or follow instructions in this README.
 
+Current Images
+--------------
+
+[2013 Feb 05](https://berkeley.box.com/s/32q7f01xh0oayk3h4d72)
+
 Current Status
 --------------
 
 May have bugs, and is not 100% complete yet.
 
+[Changelog] (Changelog.md)
+[Resources] (Resources.md)
 
 Installation Setup
 ---------------------
