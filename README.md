@@ -9,6 +9,8 @@ Current Images
 
 [2013 Feb 05](https://berkeley.box.com/s/32q7f01xh0oayk3h4d72)
 
+[2013 Feb 08](https://berkeley.box.com/s/itipr12a8cduoui08pvg)
+
 Current Status
 --------------
 
@@ -41,10 +43,6 @@ Install ROS base packages:
 Install system dependencies:
 
     $ sudo apt-get install libapr1-dev libaprutil1-dev libbz2-dev python-dev libgtest-dev python-paramiko libboost-all-dev liblog4cxx10-dev pkg-config python-empy swig python-nose lsb-release python-wxgtk2.8 python-gtk2 python-matplotlib libwxgtk2.8-dev python-imaging libqt4-dev graphviz qt4-qmake python-numpy libtiff4-dev libpoco-dev assimp-utils libtinyxml-dev python-pydot python-qwt5-qt4 libxml2-dev libsdl-image1.2-dev bison++ automake autoconf -y
-
-Other useful system tools:
-
-    $ sudo apt-get install ranger emacs -y
 
 ### Catkin Setup
 
