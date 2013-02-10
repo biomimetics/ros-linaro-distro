@@ -83,8 +83,8 @@ Install ROS system dependencies via rosdep:
 
 Building yaml-cpp via repo
 
-    $ echo "deb http://ppa.launchpad.net/stephane.magnenat/precise/ubuntu precise main
-deb-src http://ppa.launchpad.net/stephane.magnenat/precise/ubuntu precise main" | sudo tee -a /etc/apt/sources.list
+    $ echo "deb http://ppa.launchpad.net/stephane.magnenat/precise/ubuntu precise main" | sudo tee -a /etc/apt/sources.list
+    $ echo "deb-src http://ppa.launchpad.net/stephane.magnenat/precise/ubuntu precise main" | sudo tee -a /etc/apt/sources.list
     $ sudo apt-get update; sudo apt-get upgrade -y
     $ sudo apt-get build-dep yaml-cpp
     $ mkdir -p ~/fix/yaml-cpp
